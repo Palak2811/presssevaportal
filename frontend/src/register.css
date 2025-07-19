@@ -1,0 +1,92 @@
+/* register.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html, .register-container {
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.register-container {
+  display: flex;
+}
+
+/* Left panel */
+.left-panel {
+  flex: 1;
+  background-color: #0052cc;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.left-panel h1 {
+  font-size: 2.5rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Right panel */
+.right-panel {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right-panel h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form input {
+  margin-bottom: 15px;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+form button {
+  padding: 12px;
+  font-size: 1rem;
+  background-color: #0052cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #003d99;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 0.95rem;
+}
+
+p button {
+  background: none;
+  border: none;
+  color: #0052cc;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+}
