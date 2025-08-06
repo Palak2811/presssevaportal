@@ -43,7 +43,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar based on the image, now without icons */}
       <aside className="sidebar">
         <h2>PRGI Press Sewa Portal</h2>
         <ul>

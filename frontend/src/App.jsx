@@ -17,14 +17,11 @@ export default function App() {
       console.log('hii');
       const { token, isAdmin, userAccess } = res.data;
       console.log(isAdmin)
-      // Admin login special case
       
       if (isAdmin) {
         navigate('/admin');
         return;
       }
-      
-      // Regular user login
       localStorage.setItem('authToken', token);
       localStorage.setItem('userAccess', JSON.stringify(userAccess));
       navigate('/dashboard', { state: { name: formData.name } });

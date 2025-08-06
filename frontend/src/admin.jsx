@@ -78,14 +78,11 @@ export default function Admin() {
     <div className="admin-container">
       <div className="admin-header" style={{ flexDirection: 'column', alignItems: 'center' }}>
         <h1>Admin Panel</h1>
-
-        {/* First horizontal line: centered Pending / Approved */}
         <div className="button-row center-row">
           <button className="button" onClick={() => fetchUsers('pending')}>Pending Registrations</button>
           <button className="button secondary" onClick={() => fetchUsers('approved')}>Approved Employees</button>
         </div>
 
-        {/* Second line: old admins toggle centered */}
         <div className="button-row center-row" style={{ marginTop: 12 }}>
           <button
             className="button secondary former-admins-toggle"
