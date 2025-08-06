@@ -1,43 +1,51 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import './register.css'; // Make sure this path is correct
+import './Register.css';
 
 export default function Register() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: '', password: '', passkey: '' });
+  const [data, setData] = useState({
+    name: '',
+    password: '',
+    passkey: '',
+    email: '',
+    phoneno: ''
+  });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const change = e => setData({ ...data, [e.target.name]: e.target.value });
 
-  const handleRegister = async (e) => {
+  const submit = async e => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/register', formData);
-      alert(res.data.message);
+      await axios.post('http://localhost:5000/api/register', data);
+      alert('Registration successful. Please wait for admin approval.');
       navigate('/');
     } catch (err) {
-      alert('Registration failed');
+      alert(err.response?.data?.message || 'Registration failed');
     }
   };
 
   return (
     <div className="register-container">
-      <div className="left-panel">
-        <h1>Welcome to<br />Press Seva Portal</h1>
+      <div className="register-left">
+        <h1>Join Press Seva Portal</h1>
       </div>
-      <div className="right-panel">
+      <div className="register-right">
         <h2>Register</h2>
-        <form onSubmit={handleRegister}>
-          <input type="text" name="name" placeholder="Name" onChange={handleChange} required />
-          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-          <input type="text" name="passkey" placeholder="Passkey" onChange={handleChange} required />
+        <form className="register-form" onSubmit={submit}>
+          <input name="name" placeholder="Name" onChange={change} required />
+          <input name="password" type="password" placeholder="Password" onChange={change} required />
+          <input name="passkey" placeholder="Passkey" onChange={change} required />
+          <input name="email" type="email" placeholder="Email" onChange={change} required />
+          <input name="phoneno" placeholder="Phone No." onChange={change} required />
           <button type="submit">Register</button>
         </form>
         <p>
           Already have an account?{' '}
-          <button onClick={() => navigate('/')}>Login Here</button>
+          <button className="link-button" onClick={() => navigate('/')}>
+            Login Here
+          </button>
         </p>
       </div>
     </div>

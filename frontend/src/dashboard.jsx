@@ -1,79 +1,81 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './dashboard.css';
 
-const cardGrid = [
-  ['Registration', 'Regularity', 'Newsprint', 'Helpdesk'],
-  ['Annual Statement', 'Management Info', 'Day to Day operationOps', 'Main Profile'],
-  ['User Management', 'Fee Structure', 'Suspension/Cancellation', 'About']
+const allCards = [
+  'Registration', 'Regularity', 'Newsprint', 'Helpdesk',
+  'Annual Statement', 'Management Information System', 'Day to Day Operations', 'Main Profile',
+  'User Management', 'Fee Structure', 'Suspension/Cancellation', 'About'
 ];
-
-const accessConfig = {
-  palak: ['Registration', 'Regularity', 'Newsprint', 'Helpdesk'],
-  gaurav: ['Annual Statement', 'Management Info', 'Day to Day operationOps', 'Main Profile'],
-  poonam: ['User Management', 'Fee Structure', 'Suspension/Cancellation', 'About'],
-};
 
 export default function Dashboard() {
   const { state } = useLocation();
-  const { name = 'guest', passkey = '' } = state || {};
+  const navigate = useNavigate();
+  const [userAccess, setUserAccess] = useState([]);
+  const { name = 'guest' } = state || {};
+
+  useEffect(() => {
+    const storedAccess = localStorage.getItem('userAccess');
+    if (storedAccess) {
+      try {
+        setUserAccess(JSON.parse(storedAccess));
+      } catch (e) {
+        console.error("Failed to parse userAccess from local storage", e);
+        setUserAccess([]);
+      }
+    }
+  }, []);
 
   const handleClick = (card) => {
-    if (card === 'About') {
-      alert('Opening About...');
-      return;
-    }
-
-    const allowedCards = accessConfig[name] || [];
-
-    if (allowedCards.includes(card)) {
-      alert(`Access granted to ${card}`);
+    if (userAccess.includes(card)) {
+      alert(`Accessing ${card}`);
     } else {
-      alert('You are not authorized to access this card.');
+      alert(`Access not granted for "${card}"`);
     }
   };
 
-  const sidebarItems = [
-    'Dashboard',
-    'Printing Press List',
-    'Transaction Report',
-    'User Manual',
-    'Search Verified Titles',
-    'Search Registered Titles',
-    'Download DC / REJECTION',
-    'SA Applications',
-    'View User Role Activity',
-    'Application Status'
-  ];
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userAccess');
+    localStorage.removeItem('isAdmin');
+    navigate('/');
+  };
 
   return (
     <div className="dashboard-container">
+      {/* Sidebar based on the image, now without icons */}
       <aside className="sidebar">
-        <h2>Press Sewa Portal</h2>
+        <h2>PRGI Press Sewa Portal</h2>
         <ul>
-          {sidebarItems.map((item, idx) => (
-            <li key={idx}>{item}</li>
-          ))}
+          <li>Dashboard</li>
+          <li>Printing Press List</li>
+          <li>Transaction Report</li>
+          <li>User Manual</li>
+          <li>Search Verified Titles</li>
+          <li>Search Registered Titles</li>
+          <li>Download DC / REJECTION</li>
+          <li>SA Applications</li>
+          <li>View User Role Activity</li>
+          <li>Application Status</li>
         </ul>
       </aside>
 
       <main className="main-content">
-        <div className="dashboard-header">
+        <header className="dashboard-header">
           <h2>Dashboard</h2>
           <div>
-            <strong>User:</strong> {name} 
-            
+            <strong>User:</strong> {name}
+            <button onClick={handleLogout}>Logout</button>
           </div>
-        </div>
+        </header>
 
-        {cardGrid.map((row, rowIndex) => (
-          <div className="card-row" key={rowIndex}>
-            {row.map((card, colIndex) => (
-              <div className="card" key={colIndex} onClick={() => handleClick(card)}>
-                {card}
-              </div>
-            ))}
-          </div>
-        ))}
+        <div className="card-grid">
+          {allCards.map(card => (
+            <div className="card" key={card} onClick={() => handleClick(card)}>
+              <h4 className="card-title">{card}</h4>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
