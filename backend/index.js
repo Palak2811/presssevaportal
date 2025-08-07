@@ -20,7 +20,6 @@ const UserSchema = new mongoose.Schema({
 });
 const Main = mongoose.model('Main', UserSchema);
 
-// --- NEW SCHEMA AND MODEL FOR FORMER ADMINS ---
 const FormerAdminSchema = new mongoose.Schema({
   name: String,
   email: String,
@@ -29,9 +28,7 @@ const FormerAdminSchema = new mongoose.Schema({
   endDate: String
 });
 const FormerAdmin = mongoose.model('FormerAdmin', FormerAdminSchema);
-// ---------------------------------------------
 
-// Connect
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
@@ -104,7 +101,6 @@ app.get('/api/admin/former-admins', async (req, res) => {
         res.status(500).json({ message: 'Error fetching former admins' });
     }
 });
-// ----------------------------------------------
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

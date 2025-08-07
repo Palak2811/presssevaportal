@@ -5,7 +5,7 @@ import './Register.css';
 
 // Firebase imports
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from './firebase'; // <-- create firebase.js with config
+import { auth } from './firebase';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -23,7 +23,6 @@ export default function Register() {
   // Step 1: Send verification email
   const sendVerificationLink = async () => {
     try {
-      // Create temporary Firebase user
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, 'TempPassword123!');
       await sendEmailVerification(userCredential.user);
       alert('Verification email sent. Check your inbox.');
@@ -32,7 +31,6 @@ export default function Register() {
     }
   };
 
-  // Step 2: Check if email is verified
   const checkVerification = async () => {
     try {
       await auth.currentUser.reload();
